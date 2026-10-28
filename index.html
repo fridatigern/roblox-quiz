@@ -365,7 +365,9 @@
           if (text === rattText) {
             document.getElementById("facit").textContent = "Correct! 🎉";
             const blixt = document.getElementById("blixt");
+            blixt.style.animation = "none"; void blixt.offsetWidth; blixt.style.animation = "";
             blixt.textContent = "RIGHT";
+            saga("Nice!");
             blixt.style.background = "#00c853";
             blixt.style.display = "flex";
             setTimeout(function () { blixt.style.display = "none"; }, 1200);
@@ -374,7 +376,9 @@
           } else {
             document.getElementById("facit").textContent = "Wrong. Correct answer: " + rattText;
             const blixt = document.getElementById("blixt");
+            blixt.style.animation = "none"; void blixt.offsetWidth; blixt.style.animation = "";
             blixt.textContent = "WRONG";
+            saga("Loser!");
             blixt.style.background = "#e2231a";
             blixt.style.display = "flex";
             setTimeout(function () { blixt.style.display = "none"; }, 1200);
@@ -388,7 +392,7 @@
     function tick() {
       if (!ljud) ljud = new (window.AudioContext || window.webkitAudioContext)();
       const o = ljud.createOscillator(); const g = ljud.createGain();
-      o.frequency.value = 1400; g.gain.value = 0.07;
+      o.frequency.value = 1400; g.gain.value = 0.05;
       o.connect(g); g.connect(ljud.destination);
       o.start(); g.gain.exponentialRampToValueAtTime(0.0001, ljud.currentTime + 0.03); o.stop(ljud.currentTime + 0.035);
     }
@@ -397,11 +401,24 @@
       function loop(nu) {
         const t = (nu - start) / 4000; if (t >= 1) return;
         const fart = 1 - Math.pow(t, 0.35);
-        const steg = Math.floor(t * 900 * fart);
+        const steg = Math.floor(t * 420 * fart);
         if (steg !== senast) { tick(); senast = steg; }
         requestAnimationFrame(loop);
       }
       requestAnimationFrame(loop);
+    }
+
+    function saga(text) {
+      if (!window.speechSynthesis) return;
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US"; u.rate = 1.15; u.pitch = 1.9; u.volume = 1;
+      const roliga = ["Bubbles", "Zarvox", "Good News", "Bells", "Boing", "Trinoids", "Junior"];
+      const roster = speechSynthesis.getVoices();
+      for (const namn of roliga) {
+        const r = roster.find(function (v) { return v.name.indexOf(namn) === 0; });
+        if (r) { u.voice = r; break; }
+      }
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
     }
 
     function snurra() {
