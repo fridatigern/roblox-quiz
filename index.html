@@ -698,9 +698,19 @@
       #hjul.aura { animation: none; box-shadow: 0 0 0 3px #5a5a5a, 0 0 30px 10px var(--aura), 0 14px 30px rgba(0,0,0,0.4), inset 0 0 25px rgba(0,0,0,0.3); }
       .storkista .glod, .mysbox .kub, .skylt, .hus .antenn::after, .rack .lampor2, .rack .lampor3, .fackla .sken { animation: none !important; }
       .fotdamm { display: none; }
-      #siffror span { text-shadow: none; }
+      #siffror { display: none !important; }
       .svavfraga { text-shadow: 0 0 6px #b388ff; }
+      #golv { left: -35%; right: -35%; height: 130%; transform: rotateX(58deg); }
+      #rum { perspective: 500px; }
+      #saker .sak, #saker .sak * { filter: none !important; }
+      #saker .sak { box-shadow: none; }
+      #vinjett { display: none; }
+      #regn { opacity: 0.8; }
+      .minirum .minisaker { display: none; }
+      .minihjul .miniskal #hjul { animation: none !important; box-shadow: 0 0 0 3px #5a5a5a; }
+      .minihjul .miniskal #nav::before, .minihjul .miniskal #nav::after { animation: none !important; }
     }
+    #felruta { position: fixed; left: 8px; right: 8px; bottom: 8px; z-index: 999; display: none; background: #b3121b; color: #fff; font: 12px monospace; padding: 8px; border-radius: 6px; word-break: break-all; }
   </style>
 </head>
 <body>
@@ -725,6 +735,7 @@
   <div id="rum"><div id="vagg"><canvas id="regn"></canvas></div><div id="golv"></div><div id="horisont"></div><div id="saker"></div><div id="vinjett"></div></div>
   <button id="hem" onclick="hem()" title="Menu">☰</button>
   <canvas id="binblink"></canvas>
+  <div id="felruta"></div>
   <div id="blixt">RIGHT</div>
   <h1>Roblox Quiz</h1>
   <p id="poang">Score: 0</p>
@@ -744,6 +755,11 @@
   <p id="facit"></p>
 
   <script>
+    window.onerror = function (msg, url, rad) {
+      const f = document.getElementById("felruta");
+      if (f) { f.style.display = "block"; f.textContent = "Fel: " + msg + " (rad " + rad + ")"; }
+    };
+    const MOBIL = window.matchMedia("(max-width: 820px), (pointer: coarse)").matches;
     const spel = ["Rivals", "Doors", "Brookhaven", "Steal a Brainrot", "Grow a Garden", "Murder Mystery",
       "Adopt Me", "Blox Fruits", "BedWars", "Dress to Impress", "Fisch", "Pet Simulator 99", "Tower of Hell",
       "Arsenal", "Jailbreak", "Piggy", "99 Nights in the Forest", "Dead Rails", "Blade Ball", "The Strongest Battlegrounds"];
@@ -1261,7 +1277,7 @@
       c.style.display = pa ? "block" : "none";
       if (!pa) return;
       const ctx = c.getContext("2d");
-      function storlek() { c.width = c.clientWidth; c.height = c.clientHeight; }
+      function storlek() { const k = MOBIL ? 0.5 : 1; c.width = Math.max(1, c.clientWidth * k); c.height = Math.max(1, c.clientHeight * k); }
       storlek(); window.onresize = storlek;
       const kol = 14; let droppar = [];
       regnTimer = setInterval(function () {
@@ -1276,18 +1292,19 @@
           if (droppar[i] * kol > c.height && Math.random() > 0.97) droppar[i] = 0;
           droppar[i] += 1;
         }
-      }, window.matchMedia("(max-width: 820px), (pointer: coarse)").matches ? 110 : 60);
+      }, MOBIL ? 110 : 60);
     }
 
     let siffrorTimer = null;
     function visaSiffror(pa, tecken, farg) {
+      if (MOBIL) pa = false;
       const ruta = document.getElementById("siffror");
       ruta.innerHTML = ""; clearInterval(siffrorTimer);
       ruta.style.display = pa ? "block" : "none";
       if (!pa) return;
       const r = HJUL.offsetWidth / 2;
       const spans = [];
-      const antal = window.matchMedia("(max-width: 820px), (pointer: coarse)").matches ? 24 : 70;
+      const antal = MOBIL ? 24 : 70;
       for (let i = 0; i < antal; i++) {
         const sp = document.createElement("span");
         const vinkel = Math.random() * Math.PI * 2;
@@ -1308,7 +1325,7 @@
           if (tecken) sp.textContent = tecken[Math.floor(Math.random() * tecken.length)];
           else { sp.textContent = sp.textContent === "0" ? "1" : "0"; sp.classList.toggle("noll", sp.textContent === "0"); }
         }
-      }, window.matchMedia("(max-width: 820px), (pointer: coarse)").matches ? 300 : 150);
+      }, MOBIL ? 300 : 150);
     }
 
     const pilformer = {
@@ -1521,7 +1538,7 @@
           const b = lista[id];
           r.innerHTML = '<div class="miniscen"><div class="mv" style="background:' + b.vagg + ';background-size:' + (b.vaggstorlek || "100% 100%") + '"></div>' +
             '<div class="mg" style="background-color:' + b.golv + ';background-image:' + b.golvbild + ';background-size:' + (b.golvstorlek || "100% 100%, 90px 90px, 90px 90px, 8px 8px") + '"></div><div class="minisaker"></div></div>';
-          byggSaker(r.querySelector(".minisaker"), b, true);
+          if (!MOBIL) byggSaker(r.querySelector(".minisaker"), b, true);
           d.appendChild(r);
         }
         const t = document.createElement("div");
