@@ -116,7 +116,7 @@
       .logga { width: 115vw; }
       .logga.upp { top: -12vw; }
       .logga.ner { bottom: -12vw; }
-      h1 { font-size: 28px; margin: calc(12px + env(safe-area-inset-top, 0px)) 0 4px; }
+      h1 { font-size: 28px; margin: calc(14px + env(safe-area-inset-top, 0px)) 0 4px; }
       #poang { margin: 4px 0; }
       button { margin-top: 0; }
       .ben { height: 170px; width: 14px; left: -7px; }
@@ -163,7 +163,8 @@
     .meny.gra:active { box-shadow: 0 1px 0 #3d3d3d, 0 2px 4px rgba(0,0,0,0.3); }
     #backpack {
       position: fixed; inset: 0; z-index: 25; display: none; flex-direction: column;
-      align-items: center; justify-content: center; gap: 16px; background: radial-gradient(circle at 50% 30%, #3a3a3a, #141414); color: white;
+      align-items: center; justify-content: flex-start; gap: 16px; overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding: calc(24px + env(safe-area-inset-top, 0px)) 0 calc(90px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; background: radial-gradient(circle at 50% 30%, #3a3a3a, #141414); color: white;
     }
     #backpack h2 { font-size: 40px; margin: 0; }
     #bp-meny, #bp-lista { display: flex; flex-direction: column; align-items: center; gap: 14px; }
@@ -194,7 +195,7 @@
     .minirum .minisaker { position: absolute; inset: 0; pointer-events: none; --vhs: 3.6px; }
     #backpack p { font-size: 22px; margin: 0; }
     #hem {
-      position: fixed; top: calc(12px + env(safe-area-inset-top, 0px)); left: calc(12px + env(safe-area-inset-left, 0px)); z-index: 15; width: 48px; height: 48px; padding: 0;
+      position: fixed; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); left: calc(12px + env(safe-area-inset-left, 0px)); z-index: 15; width: 48px; height: 48px; padding: 0;
       border-radius: 10px; background: #e2231a; color: white; font-size: 26px; line-height: 48px;
       box-shadow: 0 4px 0 #9c1710, 0 6px 10px rgba(0,0,0,0.3); margin: 0 !important;
     }
@@ -707,6 +708,15 @@
       #vinjett { display: none; }
       #regn { opacity: 0.8; }
       .minirum .minisaker { display: none; }
+      .skin { width: 104px; padding: 6px; padding-top: 14px; font-size: 15px; gap: 4px; }
+      .minihjul { width: 70px; height: 70px; }
+      .minihjul .miniskal { transform: scale(0.21); }
+      .minihjul .minipil { width: 16px; height: 20px; margin-left: -8px; top: -13px; }
+      .minirum { width: 88px; height: 72px; }
+      .minirum .miniscen { transform: scale(0.2); }
+      #bp-val { gap: 8px; max-width: 96vw; }
+      #backpack h2 { font-size: 30px; }
+      .meny { font-size: 24px; padding: 10px 0; }
       .minihjul .miniskal #hjul { animation: none !important; box-shadow: 0 0 0 3px #5a5a5a; }
       .minihjul .miniskal #nav::before, .minihjul .miniskal #nav::after { animation: none !important; }
     }
